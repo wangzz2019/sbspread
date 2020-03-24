@@ -13,7 +13,7 @@ from oauth2client import file, client, tools
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 
 # The ID and range of a sample spreadsheet.
-SAMPLE_SPREADSHEET_ID = '1pWeQRgt4gTaAbQGrRkQyEa7V5QtmBJ7oJHsczy4x4h4'
+#SAMPLE_SPREADSHEET_ID = '1pWeQRgt4gTaAbQGrRkQyEa7V5QtmBJ7oJHsczy4x4h4'
 #SAMPLE_RANGE_NAME = '馬鹿１本部!A1:AA10'
 
 
@@ -38,8 +38,9 @@ def googleDrive():
         print('Files:')
         for item in items:
             print(u'{0} ({1})'.format(item['name'], item['id']))
+            googleSpreadsheet(item['id'])
 
-def googleSpreadsheet():
+def googleSpreadsheet(sid):
     """Shows basic usage of the Sheets API.
     Prints values from a sample spreadsheet.
     """
@@ -66,7 +67,7 @@ def googleSpreadsheet():
 
     # Call the Sheets API
     sheet = service.spreadsheets()
-    tempvalue=sheet.get(spreadsheetId=SAMPLE_SPREADSHEET_ID).execute()
+    tempvalue=sheet.get(spreadsheetId=sid).execute()
     sheets=tempvalue.get('sheets',[])
     for title in sheets:
         #out=json.loads(title[0])
@@ -74,7 +75,7 @@ def googleSpreadsheet():
         if (str(titlename)).endswith('本部'):
             print(titlename)
             rangename=titlename
-            result = sheet.values().get(spreadsheetId=SAMPLE_SPREADSHEET_ID,
+            result = sheet.values().get(spreadsheetId=sid,
                                 range=rangename).execute()
             values = result.get('values', [])
 
